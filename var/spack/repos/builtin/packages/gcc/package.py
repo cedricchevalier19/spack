@@ -97,7 +97,7 @@ class Gcc(AutotoolsPackage):
     depends_on('isl@0.15:', when='@6:')
     depends_on('zlib', when='@6:')
     depends_on('gnat', when='languages=ada')
-    depends_on('binutils~libiberty', when='+binutils')
+    depends_on('binutils~libiberty', when='+binutils', type=('build', 'run', ))
     depends_on('zip', type='build', when='languages=java')
 
     # TODO: integrate these libraries.
@@ -248,8 +248,13 @@ class Gcc(AutotoolsPackage):
             static_bootstrap_flags = '-static-libstdc++ -static-libgcc'
             binutils_options = [
                 '--with-sysroot=/',
-                '--with-stage1-ldflags={0} {1}'.format(
-                    self.rpath_args, static_bootstrap_flags),
+                # The following line causes linkage error on RHEL7
+                # static libstdc++ not being available by default.
+                # For stage1, we just want to produce a working c++ compiler,
+                # we can still rely on host infrastructure to do so.
+                #'--with-stage1-ldflags={0} {1}'.format(
+                #    self.rpath_args, static_bootstrap_flags),
+                # For following stage, we want to rely on previous stages results.
                 '--with-boot-ldflags={0} {1}'.format(
                     self.rpath_args, static_bootstrap_flags),
                 '--with-gnu-ld',
