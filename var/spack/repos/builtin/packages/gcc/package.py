@@ -252,9 +252,9 @@ class Gcc(AutotoolsPackage):
                 # static libstdc++ not being available by default.
                 # For stage1, we just want to produce a working c++ compiler,
                 # we can still rely on host infrastructure to do so.
-                #'--with-stage1-ldflags={0} {1}'.format(
+                # '--with-stage1-ldflags={0} {1}'.format(
                 #    self.rpath_args, static_bootstrap_flags),
-                # For following stage, we want to rely on previous stages results.
+                # For following stage, we want to rely on previous stages.
                 '--with-boot-ldflags={0} {1}'.format(
                     self.rpath_args, static_bootstrap_flags),
                 '--with-gnu-ld',
