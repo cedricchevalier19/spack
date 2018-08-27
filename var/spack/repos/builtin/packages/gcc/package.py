@@ -247,10 +247,13 @@ class Gcc(AutotoolsPackage):
             static_bootstrap_flags = '-static-libstdc++ -static-libgcc'
             binutils_options = [
                 '--with-sysroot=/',
-                # We do not really care about stage1
-                #'--with-stage1-ldflags={0} {1}'.format(
+                # The following line causes linkage error on RHEL7
+                # static libstdc++ not being available by default.
+                # For stage1, we just want to produce a working c++ compiler,
+                # we can still rely on host infrastructure to do so.
+                # '--with-stage1-ldflags={0} {1}'.format(
                 #    self.rpath_args, static_bootstrap_flags),
-                # Same as default ?
+                # For following stage, we want to rely on previous stages.
                 '--with-boot-ldflags={0} {1}'.format(
                     self.rpath_args, static_bootstrap_flags),
                 '--with-gnu-ld',
