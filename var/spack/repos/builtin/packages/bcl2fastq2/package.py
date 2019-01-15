@@ -1,4 +1,4 @@
-# Copyright 2013-2018 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -27,6 +27,9 @@ class Bcl2fastq2(Package):
     # source tarball, you can drop it into a local mirror w/ the name
     # mirror/bcl2fastq2/bcl2fastq2-2.17.1.14.zip and go from there.
     version('2.17.1.14', '7426226c6db095862e636b95c38608d3')
+
+    conflicts('platform=darwin',
+              msg='malloc.h/etc requirements break build on macs')
 
     depends_on('boost@1.54.0')
     depends_on('cmake@2.8.9:')
