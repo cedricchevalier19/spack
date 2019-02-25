@@ -11,5 +11,4 @@
 #   ~/.spack/repos.yaml
 # -------------------------------------------------------------------------
 repos:
-  - /home/chevalier/spack/arcane_spack
   - $spack/var/spack/repos/builtin
