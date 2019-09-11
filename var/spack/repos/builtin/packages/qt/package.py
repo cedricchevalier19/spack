@@ -132,7 +132,7 @@ class Qt(Package):
     depends_on("libpng@1.2.57", when='@3')
     depends_on("pcre+multibyte", when='@5.0:5.8')
     depends_on("inputproto", when='@:5.8')
-    depends_on("openssl@:1.0", when='@:5.9+ssl')
+    depends_on("openssl@:1.0.999", when='@:5.9+ssl')
 
     depends_on("glib", when='@4:')
     depends_on("libpng", when='@4:')
@@ -158,7 +158,7 @@ class Qt(Package):
                   msg="QT cannot be built as a framework except on macOS.")
     else:
         conflicts('platform=darwin', when='@4.8.6',
-                msg="QT 4 for macOS is only patched for 4.8.7")
+                  msg="QT 4 for macOS is only patched for 4.8.7")
 
     use_xcode = True
 
@@ -425,6 +425,10 @@ class Qt(Package):
             '-{0}phonon'.format('' if '+phonon' in spec else 'no-'),
             '-arch', str(spec.architecture.target),
         ])
+
+        # Disable phonon backend until gstreamer is setup as dependency
+        if '+phonon' in self.spec:
+            config_args.append('-no-phonon-backend')
 
         if '~examples' in self.spec:
             config_args.extend(['-nomake', 'demos'])
