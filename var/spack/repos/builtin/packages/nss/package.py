@@ -8,9 +8,9 @@
 import glob
 from os import makedirs
 
-from llnl.util.filesystem import install_tree, join_path
+from llnl.util.filesystem import install_tree, join_path, FileFilter
 from spack.build_systems.makefile import MakefilePackage
-from spack.directives import version, variant, depends_on
+from spack.directives import version, variant, depends_on, patch
 
 
 class Nss(MakefilePackage):
@@ -41,6 +41,7 @@ class Nss(MakefilePackage):
     # Compile instructions from Linux From Scratch:
     # see http://www.linuxfromscratch.org/blfs/view/cvs/postlfs/nss.html
     # patch('nss-3.46.1-standalone-1.patch')
+    patch('pkgconfig.patch')
 
     parallel = False
     depends_on('zlib')
@@ -48,6 +49,29 @@ class Nss(MakefilePackage):
     depends_on('sqlite@3:')
 
     build_directory = "nss"
+
+    def edit(self, spec, prefix):
+        nss_major_version = 3
+        nss_minor_version = 46
+        nss_patch_version = 1
+        nspr_major_version = 4
+        nspr_minor_version = 21
+        nspr_patch_version = 0
+
+        pkg_filter = FileFilter('pkgconfig/nss.pc', 'pkgconfig/nspr.pc')
+        pkg_filter.filter('@prefix@', format(prefix))
+        pkg_filter.filter('@exec_prefix@', format(prefix.bin))
+        pkg_filter.filter('@libdir@', format(prefix.libraries))
+        pkg_filter.filter('@includedir@', format(prefix.include))
+        pkg_filter.filter('@NSS_MAJOR_VERSION@', format(nss_major_version))
+        pkg_filter.filter('@NSS_MINOR_VERSION@', format(nss_minor_version))
+        pkg_filter.filter('@NSS_PATCH_VERSION@', format(nss_patch_version))
+        pkg_filter.filter('@NSPR_MAJOR_VERSION@', format(nspr_major_version))
+        pkg_filter.filter('@NSPR_MINOR_VERSION@', format(nspr_minor_version))
+        pkg_filter.filter('@NSPR_PATCH_VERSION@', format(nspr_patch_version))
+        pkg_filter.filter(
+            '@NSPR_MIN_VERSION@', '{}.{}'.format(nspr_major_version,
+                                                 nspr_minor_version))
 
     @property
     def build_targets(self):
@@ -81,3 +105,5 @@ class Nss(MakefilePackage):
                      prefix.libraries,
                      symlinks=False)
         install_tree(join_path(compile_dir, 'bin'), prefix.bin, symlinks=False)
+        #TODO: do not install pkgconfig files for nspr if external
+        install_tree('pkgconfig', join_path(prefix.libraries, 'pkgconfig'))
