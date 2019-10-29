@@ -78,9 +78,7 @@ class Qt(Package):
     variant('xcb', default=True, description="enable qt-xcb")
     variant('webengine', default=False, description="Enable webengine")
 
-    conflicts('+webengine', when='~webkit')
     conflicts('+webengine', when='~opengl')
-#    conflicts('+webengine', when='~sql')
 
     # Patches for qt@3
     patch('qt3-accept.patch', when='@3')
@@ -190,6 +188,7 @@ class Qt(Package):
         depends_on("libxcb", when="~xcb")
         depends_on("libxkbcommon")
         conflicts('+webengine', when='~dbus')
+        conflicts('+webengine', when='+xcb')
         depends_on("fontconfig", when="+webengine")
         depends_on("xcb-util-image", when="~xcb")
         depends_on("xcb-util-keysyms", when="~xcb")
