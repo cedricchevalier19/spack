@@ -176,8 +176,8 @@ class Qt(Package):
     depends_on("pciutils", when="+webengine")
     depends_on("ruby", when="+webkit", type='build')
     depends_on("libxslt", when="+webkit")
-    #depends_on("gcc", type=('build', 'link'))
     depends_on("gettext", when="+webengine")
+    depends_on("nss", when="+webengine")  # for chromium
 
     # gcc@4 is not supported as of Qt@5.14
     # https://doc.qt.io/qt-5.14/supported-platforms.html
