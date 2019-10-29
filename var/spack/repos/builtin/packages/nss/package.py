@@ -8,7 +8,7 @@
 import glob
 from os import makedirs
 
-from llnl.util.filesystem import install_tree, join_path, FileFilter
+from llnl.util.filesystem import install_tree, join_path, FileFilter, install
 from spack.build_systems.makefile import MakefilePackage
 from spack.directives import version, variant, depends_on, patch
 
@@ -61,7 +61,7 @@ class Nss(MakefilePackage):
         pkg_filter = FileFilter('pkgconfig/nss.pc', 'pkgconfig/nspr.pc')
         pkg_filter.filter('@prefix@', format(prefix))
         pkg_filter.filter('@exec_prefix@', format(prefix.bin))
-        pkg_filter.filter('@libdir@', format(prefix.libraries))
+        pkg_filter.filter('@libdir@', format(prefix.lib))
         pkg_filter.filter('@includedir@', format(prefix.include))
         pkg_filter.filter('@NSS_MAJOR_VERSION@', format(nss_major_version))
         pkg_filter.filter('@NSS_MINOR_VERSION@', format(nss_minor_version))
@@ -87,7 +87,7 @@ class Nss(MakefilePackage):
 
     def install(self, spec, prefix):
         makedirs(prefix.bin, exist_ok=True)
-        makedirs(prefix.libraries, exist_ok=True)
+        makedirs(prefix.lib, exist_ok=True)
         makedirs(prefix.include, exist_ok=True)
         base_path = 'dist'
         install_tree(join_path(base_path, 'public/dbm'),
@@ -97,13 +97,15 @@ class Nss(MakefilePackage):
                      prefix.include,
                      symlinks=False)
         compile_dir = glob.glob(join_path(base_path, '*.OBJ'))[0]
-        print("Install from {}".format(compile_dir))
         install_tree(join_path(compile_dir, 'include'),
                      prefix.include,
                      symlinks=False)
         install_tree(join_path(compile_dir, 'lib'),
-                     prefix.libraries,
+                     prefix.lib,
                      symlinks=False)
         install_tree(join_path(compile_dir, 'bin'), prefix.bin, symlinks=False)
-        #TODO: do not install pkgconfig files for nspr if external
-        install_tree('pkgconfig', join_path(prefix.libraries, 'pkgconfig'))
+        pkgconfig_dir = join_path(prefix.lib, 'pkgconfig')
+        makedirs(pkgconfig_dir)
+        install('pkgconfig/nss.pc', pkgconfig_dir)
+        if spec.satisfies('+nspr'):
+            install('pkgconfig/nspr.pc', pkgconfig_dir)
