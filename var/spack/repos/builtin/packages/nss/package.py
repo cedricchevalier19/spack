@@ -86,11 +86,11 @@ class Nss(MakefilePackage):
         return args
 
     def install(self, spec, prefix):
-	for d in [prefix.bin, prefix.lib, prefix.include]:
-		try:
-        		makedirs(d)
-		except FileExistsError:
-			pass
+        for d in [prefix.bin, prefix.lib, prefix.include]:
+            try:
+                makedirs(d)
+            except FileExistsError:
+                pass
         base_path = 'dist'
         install_tree(join_path(base_path, 'public/dbm'),
                      prefix.include,
@@ -102,9 +102,7 @@ class Nss(MakefilePackage):
         install_tree(join_path(compile_dir, 'include'),
                      prefix.include,
                      symlinks=False)
-        install_tree(join_path(compile_dir, 'lib'),
-                     prefix.lib,
-                     symlinks=False)
+        install_tree(join_path(compile_dir, 'lib'), prefix.lib, symlinks=False)
         install_tree(join_path(compile_dir, 'bin'), prefix.bin, symlinks=False)
         pkgconfig_dir = join_path(prefix.lib, 'pkgconfig')
         makedirs(pkgconfig_dir)
