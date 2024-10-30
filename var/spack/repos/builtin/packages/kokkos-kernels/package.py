@@ -35,18 +35,66 @@ class KokkosKernels(CMakePackage, CudaPackage):
     version("4.0.01", sha256="3f493fcb0244b26858ceb911be64092fbf7785616ad62c81abde0ea1ce86688a")
     version("4.0.00", sha256="750079d0be1282d18ecd280e130ca303044ac399f1e5864488284b92f5ce0a86")
     version("3.7.01", sha256="b2060f5894bdaf7f7d4793b90444fac260460cfa80595afcbcb955518864b446")
-    version("3.7.00", sha256="51bc6db3995392065656848e2b152cfd1c3a95a951ab18a3934278113d59f32b")
-    version("3.6.01", sha256="f000b156c8c0b80e85d38587907c11d9479aaf362408b812effeda5e22b24d0d")
-    version("3.6.00", sha256="2753643fd643b9eed9f7d370e0ff5fa957211d08a91aa75398e31cbc9e5eb0a5")
-    version("3.5.00", sha256="a03a41a047d95f9f07cd1e1d30692afdb75b5c705ef524e19c1d02fe60ccf8d1")
-    version("3.4.01", sha256="f504aa4afbffb58fa7c4430d0fdb8fd5690a268823fa15eb0b7d58dab9d351e6")
-    version("3.4.00", sha256="07ba11869e686cb0d47272d1ef494ccfbcdef3f93ff1c8b64ab9e136a53a227a")
-    version("3.3.01", sha256="0f21fe6b5a8b6ae7738290e293aa990719aefe88b32f84617436bfd6074a8f77")
-    version("3.3.00", sha256="8d7f78815301afb90ddba7914dce5b718cea792ac0c7350d2f8d00bd2ef1cece")
-    version("3.2.01", sha256="c486e5cac19e354a517498c362838619435734d64b44f44ce909b0531c21d95c")
-    version("3.2.00", sha256="8ac20ee28ae7813ce1bda461918800ad57fdbac2af86ef5d1ba74e83e10956de")
-    version("3.1.00", sha256="27fea241ae92f41bd5b070b1a590ba3a56a06aca750207a98bea2f64a4a40c89")
-    version("3.0.00", sha256="e4b832aed3f8e785de24298f312af71217a26067aea2de51531e8c1e597ef0e6")
+    version(
+        "3.7.00",
+        sha256="51bc6db3995392065656848e2b152cfd1c3a95a951ab18a3934278113d59f32b",
+        deprecated=True,
+    )
+    version(
+        "3.6.01",
+        sha256="f000b156c8c0b80e85d38587907c11d9479aaf362408b812effeda5e22b24d0d",
+        deprecated=True,
+    )
+    version(
+        "3.6.00",
+        sha256="2753643fd643b9eed9f7d370e0ff5fa957211d08a91aa75398e31cbc9e5eb0a5",
+        deprecated=True,
+    )
+    version(
+        "3.5.00",
+        sha256="a03a41a047d95f9f07cd1e1d30692afdb75b5c705ef524e19c1d02fe60ccf8d1",
+        deprecated=True,
+    )
+    version(
+        "3.4.01",
+        sha256="f504aa4afbffb58fa7c4430d0fdb8fd5690a268823fa15eb0b7d58dab9d351e6",
+        deprecated=True,
+    )
+    version(
+        "3.4.00",
+        sha256="07ba11869e686cb0d47272d1ef494ccfbcdef3f93ff1c8b64ab9e136a53a227a",
+        deprecated=True,
+    )
+    version(
+        "3.3.01",
+        sha256="0f21fe6b5a8b6ae7738290e293aa990719aefe88b32f84617436bfd6074a8f77",
+        deprecated=True,
+    )
+    version(
+        "3.3.00",
+        sha256="8d7f78815301afb90ddba7914dce5b718cea792ac0c7350d2f8d00bd2ef1cece",
+        deprecated=True,
+    )
+    version(
+        "3.2.01",
+        sha256="c486e5cac19e354a517498c362838619435734d64b44f44ce909b0531c21d95c",
+        deprecated=True,
+    )
+    version(
+        "3.2.00",
+        sha256="8ac20ee28ae7813ce1bda461918800ad57fdbac2af86ef5d1ba74e83e10956de",
+        deprecated=True,
+    )
+    version(
+        "3.1.00",
+        sha256="27fea241ae92f41bd5b070b1a590ba3a56a06aca750207a98bea2f64a4a40c89",
+        deprecated=True,
+    )
+    version(
+        "3.0.00",
+        sha256="e4b832aed3f8e785de24298f312af71217a26067aea2de51531e8c1e597ef0e6",
+        deprecated=True,
+    )
 
     depends_on("cxx", type="build")  # generated
 
