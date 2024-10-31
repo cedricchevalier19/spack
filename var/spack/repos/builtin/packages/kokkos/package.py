@@ -100,8 +100,9 @@ class Kokkos(CMakePackage, CudaPackage, ROCmPackage):
     # cuda_lambda is always enabled since Kokkos 4.1
     variant(
         "cuda_lambda",
-        values=(True, conditional(False, when="@:4.0")),
-        default=False,
+        values=("1", conditional("0", when="@:4.0")),
+        default="1",
+        multi=False,
         description="Activate lambda features for Cuda",
         when="+cuda",
     )
