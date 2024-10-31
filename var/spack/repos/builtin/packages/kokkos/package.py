@@ -84,7 +84,6 @@ class Kokkos(CMakePackage, CudaPackage, ROCmPackage):
         "aggressive_vectorization": [False, "Aggressively vectorize loops"],
         "compiler_warnings": [False, "Print all compiler warnings"],
         "cuda_constexpr": [False, "Activate experimental constexpr features"],
-        "cuda_lambda": [False, "Activate experimental lambda features"],
         "cuda_ldg_intrinsic": [False, "Use CUDA LDG intrinsics"],
         "cuda_relocatable_device_code": [False, "Enable RDC for CUDA"],
         "cuda_uvm": [False, "Enable unified virtual memory (UVM) for CUDA"],
@@ -97,6 +96,15 @@ class Kokkos(CMakePackage, CudaPackage, ROCmPackage):
         "tuning": [False, "Create bindings for tuning tools"],
         "tests": [False, "Build for tests"],
     }
+
+    # cuda_lambda is always enabled since Kokkos 4.1
+    variant(
+        "cuda_lambda",
+        values=(True, conditional(False, when="@:4.0")),
+        default=False,
+        description="Activate lambda features for Cuda",
+        when="+cuda",
+    )
 
     spack_micro_arch_map = {
         "thunderx2": "THUNDERX2",
@@ -335,6 +343,7 @@ class Kokkos(CMakePackage, CudaPackage, ROCmPackage):
             if cuda_arch != "none":
                 kokkos_arch_name = self.spack_cuda_arch_map[cuda_arch]
                 spack_microarches.append(kokkos_arch_name)
+            options.append(self.define_from_variant("Kokkos_ENABLE_CUDA_LAMBDA", "cuda_lambda"))
 
         kokkos_microarch_name = self.get_microarch(spec.target)
         if kokkos_microarch_name:
